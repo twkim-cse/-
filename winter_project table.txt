@@ -1,0 +1,43 @@
+// winter_project table
+
+CREATE TABLE profession(
+   prof_id INT AUTO_INCREMENT PRIMARY KEY,
+   profession VARCHAR(50)
+);
+
+CREATE TABLE subject(
+   subject_id INT AUTO_INCREMENT PRIMARY KEY,
+   subject VARCHAR(50)
+);
+
+CREATE TABLE class (
+   contact_id int(10) NOT NULL auto_increment PRIMARY KEY,
+   name VARCHAR(20) default NULL,
+   gender CHAR(1) default NULL,
+   prof_id INT NOT NULL,
+   FOREIGN KEY (prof_id) REFERENCES profession(prof_id)
+);
+
+CREATE TABLE subject_app(
+   contact_id INT,
+   subject_id INT,
+   PRIMARY KEY (contact_id, subject_id),
+   FOREIGN KEY (contact_id) REFERENCES class(contact_id),
+   FOREIGN KEY (subject_id) REFERENCES subject(subject_id)
+);
+
+INSERT INTO profession (profession) VALUES('의료IT공학과');
+
+INSERT INTO subject (subject) VALUES('데이터 베이스');
+
+INSERT INTO class(name, gender, prof_id) VALUES ('김태우', 'M', 1);
+
+INSERT INTO subject_app(contact_id, subject_id) VALUES(1, 1);
+
+select contact_id, name, gender, p.profession from class c inner join profession p on c.prof_id = p.prof_id;
+
+select * from class c inner join profession p on c.prof_id = p.prof_id;
+
+
+SELECT s.subject, name, gender, p.profession FROM class NATURAL JOIN subject_app sa NATURAL JOIN subject s NATURAL JOIN profession p;
+-> 수강과목, 학생의 이름, 학생 성별, 학생 전공 출력.
